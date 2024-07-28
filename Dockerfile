@@ -4,7 +4,7 @@ COPY . .
 RUN apt-get update
 RUN apt-get install -y openjdk-11-jdk
 RUN apt install maven -y
-RUN mvn clean build
+RUN mvn install
 ENV JAVA_HOME /usr
 ADD apache-tomcat-8.5.38.tar.gz /root
 COPY target/gamutkart.war /root/apache-tomcat-8.5.38/webapps
