@@ -1,12 +1,8 @@
-FROM ubuntu:20.04 
-WORKDIR /dir
+FROM ubuntu:20.04 AS build
+WORKDIR /home/kanhu
 COPY . .
-RUN apt-get update
-RUN apt-get install -y openjdk-11-jdk
-RUN apt install maven -y
-RUN mvn install
-ENV JAVA_HOME /usr
-ADD apache-tomcat-8.5.38.tar.gz /root
-COPY target/gamutkart.war /root/apache-tomcat-8.5.38/webapps
-ENTRYPOINT /root/apache-tomcat-8.5.38/bin/startup.sh && bash
-
+RUN apt update && \apt install openjdk-11-jdk maven -y && \mvn install
+FROM tomcat:9.0.91-jdk21-temurin-noble
+COPY --from=build /home/kanhu/target/gamutkart.war /usr/local/tomcat/webapps
+EXPOSE 8080
+ENTRYPOINT /usr/local/tomcat/bin/startup.sh && bash
