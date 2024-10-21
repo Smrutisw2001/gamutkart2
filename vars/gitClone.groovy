@@ -1,3 +1,3 @@
 def call() {
-  sh'mvn install'
+  git'https://github.com/Smrutisw2001/gamutkart2.git'
 }
